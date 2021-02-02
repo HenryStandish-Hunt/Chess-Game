@@ -143,31 +143,4 @@ public class GameLogic {
      }
 		
 		
-	
-	
-	/*
-	public static void main(String [] args) {
-		  boolean finished = false;	
-	      System.out.println("welcome to chess by Henry Standish-Hunt");
-	      System.out.println();
-	      Board b = new Board();
-	      Player one = new Player("White");
-	      Player two = new Player("Black");
-	      one.setName("One");
-	      two.setName("Two");
-	      b.startBoard("Black", b);
-	    
-	   //  System.out.println(b.getCell(0, 1).getOccupied());
-	 	 //System.out.println( b.getCell(4,0).getPiece().getName());
-	   
-	      
-	 	Graphics g = new Graphics(b);
-	 	g.printState();
-	 	System.out.println();
-	    System.out.println();
-	 	System.out.println();
-	 	checkCheck(one,b);
-	 	
-	} 
- */
 }
