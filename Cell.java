@@ -17,7 +17,7 @@ public class Cell {
 		}
 		
 	}
-	
+	 
 	public boolean getOccupied() {
 		return occupied;
 	}
