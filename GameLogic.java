@@ -110,6 +110,7 @@ public class GameLogic {
 		  // if this succedes it then checks if the oppPlayer is still in check if their not it returns false
 		  // if not the piece is moved back to its orginal position and the loop starts over moving it to all valid positions on the board
 		  // working though all the cells once completed if no moves can be made to get out of check it is check mate
+		  
 		    for(int xSelect = 0; xSelect < 8; xSelect++) {
 			for(int ySelect = 0; ySelect < 8; ySelect++) {	
 		  
