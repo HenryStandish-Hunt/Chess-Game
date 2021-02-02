@@ -13,11 +13,11 @@ public class GameRunner {
       two.setName("Two");
       b.startBoard("Black", b);
       
-    
+     
      //System.out.println(b.getCell(0, 1).getOccupied());
  	 //System.out.println( b.getCell(4,0).getPiece().getName());
    
-      
+       
  	  Graphics g = new Graphics(b);
  	  g.printState();
  	  System.out.println();
