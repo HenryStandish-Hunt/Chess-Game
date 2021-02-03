@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class GameLogic {
 	
@@ -142,6 +143,56 @@ public class GameLogic {
 		    }
 	        return stillInCheck;
      }
+	
+    public static void promotion(Board b, Player p ) {
+    	String colour = p.getColour();
+    	Cell[][] currentState = b.getBoard();
+    	int yPosGoal;
+    	
+    	//checking the colour of the player and altering the yPosition checked for promotion
+    	if(colour.equals("White")) {
+    		yPosGoal = 7;
+    		
+    	} else {
+    		yPosGoal = 0;
+    	}
+    	
+    	    for(int i = 0; i < 8; i++) {
+    		if(currentState[i][yPosGoal].getOccupied() && currentState[i][yPosGoal].getColour().equals(colour)) {
+    			
+    		   if(currentState[i][yPosGoal].getPiece().getName().contentEquals("Prawn")) {
+    			   Scanner scan = new Scanner(System.in);
+    			   Piece piece = currentState[i][yPosGoal].getPiece();
+    			   int choice = 0;
+    			   System.out.println(" Your Prawn can now be promoted ");
+    			   
+    			   do {
+    				    System.out.println("Please enter number to select 1 Queen 2 Rook 3 Knight 4 Bishop");
+    				   
+    				    choice = scan.nextInt(); 
+    			   
+    			   
+    			   
+    		       }while(choice < 1 || choice > 4 );
+    			   
+    			   switch(choice) {
+    				
+    				case 1:
+    				    piece.setName("Queen");
+    					break;
+    				case 2:
+    					piece.setName("Rook");
+    					break;
+    				case 3:
+    					piece.setName("Knight");
+    					break;
+    				case 4:
+    					piece.setName("Bishop");
+    					break;  
+    		        }
+    		      }
+    	       }
+               }
 		
-		
+    }
 }
