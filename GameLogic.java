@@ -67,7 +67,7 @@ public class GameLogic {
 			for(int y = 0; y < 8; y++)	{
 				
 		    if(currentState[x][y].getOccupied()) {
-		    	if(currentState[x][y].getColour() == player.getColour()) {
+		    	if(currentState[x][y].getColour().equals(player.getColour())) {
 		    		Piece p = currentState[x][y].getPiece();
 		    		MovementPath.setTest(true);
 		    		MovementPath.setSuccessful(false);
@@ -85,7 +85,7 @@ public class GameLogic {
 			}
 			}
 		    if(check) {
-		    System.out.println(opColour + " is now in check " );
+		    //System.out.println(opColour + " is now in check " );
 		    }
 		    return check;
 		
@@ -102,8 +102,8 @@ public class GameLogic {
 		  oppPlayer.setName(temp);
 		  Board dup = b.duplicateBoard();
 		  Cell[][]testState = dup.getBoard();
-		  Graphics test = new Graphics(dup);
-		  test.printState();
+		  //Graphics test = new Graphics(dup);
+	
 		  
 		  // go through the duplicate boards cells selecting all of them checking if they contain and opposition piece
 		  // then trying to move them to a random cell on the board 
@@ -124,12 +124,12 @@ public class GameLogic {
 		    	
 		    	 	if(MovementPath.isSuccessful()) {
 		    	 		MovementPath.setSuccessful(false);
-		    	 		test.printState();
+		    	 		//test.printState();
 		    	 		if(!checkCheck(player,dup)) {
 		    		    return stillInCheck = false;
 		    	     }
 		    		 MovementPath.manualMove(dup, xMov,yMov, xSelect , ySelect );
-		    		 test.printState();
+		    		// test.printState();
 		    	 }
 		    	 }
 		    	 }

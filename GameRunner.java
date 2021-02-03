@@ -49,6 +49,7 @@ public class GameRunner {
       
       // Checking if they have checked the opponant
       if(GameLogic.checkCheck(one, b)) {
+    	  System.out.println(two.getColour() + " is in check");
     	  if(GameLogic.checkMate(b, one)) {
     		  finished = true;
     		  return;
@@ -78,6 +79,7 @@ public class GameRunner {
            }
            
           if(GameLogic.checkCheck(two, b)) {
+        	  System.out.println(one.getColour() + " is in check");
         	  if(GameLogic.checkMate(b, two)) {
         		  finished = true;
         		  return;
