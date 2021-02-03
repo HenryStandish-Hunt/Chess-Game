@@ -73,7 +73,9 @@ public class MovementPath {
 		
 		//Checking to see if selection is on the board
 		if(xSelect < 0 || xSelect > 7 ||ySelect < 0 || ySelect > 7 ) {
-			System.out.println("Please make a valid selection");
+			if(!isTest()) {
+			//System.out.println("Please make a valid selection");
+			}
 			return;
 		}
 		
@@ -81,18 +83,37 @@ public class MovementPath {
 		
 		// Checking if Movement is off the board
 		if(xMov < 0 || xMov > 7 ||yMov < 0 || yMov > 7 ) {
-			System.out.println("movement path invalid please select another");
+			if(!isTest()) {
+			//System.out.println("movement path invalid please select another");
+			}
 			return;
 		}
 		// Checking if selection and movement are the same
-				if(xMov == xSelect && yMov == ySelect) {
-					System.out.println("movement path invalid cant stay in the same place please select another");
-					return;
+		if(xMov == xSelect && yMov == ySelect) {
+			if(!isTest()) {
+		  // System.out.println("movement path invalid cant stay in the same place please select another");
+			}
+			return;
 				}
+		
+		
 		//Checking if landing on a cell occupied by the players own piece
 		if(b.getCell(xMov, yMov).getOccupied() && b.getCell(xMov, yMov).getColour().equals(player.getColour())) {
-			System.out.println("movement path invalid cant take own piece");
+			
+		// after Check if castling and if the pieces havent moved and are on the same y Co ord
+			if(p.getName().equals("King") && b.getCell(xMov, yMov).getPiece().getName().equals("Rook")) {
+			   if(p.getNumMoves() < 1 && b.getCell(xMov, yMov).getPiece().getNumMoves() < 1) {
+				   if(p.getyPos() == b.getCell(xMov, yMov).getPiece().getyPos()) {
+					   castling(p, b, xMov, yMov, player);
+					   return;
+				   }
+			   }
+		    } else {
+		    if(!isTest()) {
+			//System.out.println("movement path invalid cant take own piece");
+		    }
 			return;
+		    }
 		}
 		
 		
@@ -238,7 +259,7 @@ public class MovementPath {
 	    }
 				
 		if(!b.getCell(xMov, yMov).getOccupied() && xMov != p.getxPos()) {
-			System.out.println("Prawns Cant move laterally unless taking");
+		//	System.out.println("Prawns Cant move laterally unless taking");
 			 return;
 		}
 		if(b.getCell(xMov, yMov).getOccupied() && Math.abs(xMov - p.getxPos()) > 1) {
@@ -322,13 +343,6 @@ public class MovementPath {
     	}
     	setSuccessful(true);
     	setTest(false);
-    	
-    	
-    	
-		
-    	  
-    	
-    	
     }
     private static void checkDiagUpRight(Piece p, Board b, int xMov, int yMov, Player player){
     	//starts one step towards target so own cell isnt checked
@@ -493,6 +507,98 @@ public class MovementPath {
     	}
     	
 		MovementPath.setSuccessful(false);
+	}
+	
+	//method works out if a legal castle is possible 
+	public static void castling(Piece p, Board b, int xMov, int yMov,Player player){
+		int xPos = p.getxPos();
+		int yPos = p.getyPos();
+		
+	//first check if any pieces to jump over making it invalid
+	// then check if any are in check
+		Piece rook = b.getCell(xMov,yMov).getPiece();
+		
+		int kingNewxPos = 0;
+		int rookNewxPos = 0;
+		
+		if(xPos > xMov) {
+		for(int i = xPos - 1; i > xMov; i--) {
+    		if(b.getCell(i, p.getyPos()).getOccupied()){
+    		//System.out.println("Cant jump over piece invalid move");
+    		return;
+    	    }
+    		for(int j = xPos; j >= xMov; j--) {
+        		if(castlingLogic(p, b,player, j, yPos)) {
+        		return;
+        	    }	
+            }
+		}
+		kingNewxPos = 2;
+		rookNewxPos = 3;
+		}
+	
+		if(xPos < xMov) {	
+		    for(int i = xPos + 1; i < xMov; i++) {
+	    		if(b.getCell(i, p.getyPos()).getOccupied()){
+	    		//cant jump over pieces check
+	    		return;
+	    	    }
+	    		for(int j = xPos; j <= xMov; j++) {
+	        		if(castlingLogic(p, b,player, j, yPos)) {
+	        		return;
+	        	    }	
+	            }
+	        }
+		    kingNewxPos = 6;
+			rookNewxPos = 5;
+		 }
+		
+		finishMove(p, b, kingNewxPos, yMov, player);
+		finishMove(rook, b, rookNewxPos, yMov, player);	
+			
+	}
+		
+		
+	private static boolean castlingLogic(Piece p, Board b,Player player, int tempxPos, int tempyPos) {
+		
+		  // reused code from checkCheck to see if any of the opponants pieces can land on the squares
+		  String temp;
+		  temp = player.getColour().equals("White") ? "Black": "White"; 
+		  Player oppPlayer = new Player(temp);
+		  temp = player.getName().equals("One") ? "Two": "One"; 
+		  oppPlayer.setName(temp);
+		  Cell[][] currentState = b.getBoard();
+		  boolean check = false;
+		  
+		  
+		        for(int x = 0; x < 8; x++) {
+				for(int y = 0; y < 8; y++)	{
+					
+			        if(currentState[x][y].getOccupied()) {
+			    	if(currentState[x][y].getColour().equals(oppPlayer.getColour())) {
+			    		Piece piece = currentState[x][y].getPiece();
+			    		MovementPath.setTest(true);
+			    		MovementPath.setSuccessful(false);
+			    		MovementPath.movementPath(b, oppPlayer,piece.getxPos(),piece.getyPos(),tempxPos,tempyPos);
+			    		if(MovementPath.isSuccessful()) {
+			    			check = true;
+			    			
+			    			
+			    		}
+			    		MovementPath.setSuccessful(false);
+			    			
+			    	}
+			    }
+			     
+				}
+				}
+			    if(check) {
+			    //System.out.println("cant castle target spaces are covered by opposing movement paths");
+			    }
+			    MovementPath.setTest(false);
+			    return check;
+		  
+		
 	}
 	}
 	

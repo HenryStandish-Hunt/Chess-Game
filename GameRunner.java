@@ -40,7 +40,9 @@ public class GameRunner {
     	  MovementPath.undoLastMove(b);
     	  successfullTurn = MovementPath.isSuccessful();
       } 
+      //Check for Prawn promotion aswell as print state or error message
       if(successfullTurn) {
+    	 GameLogic.promotion(b, one);
          g.printState();
       } else {
     	  System.out.println("Unsuccessfull turn please try again");
@@ -49,6 +51,7 @@ public class GameRunner {
       
       // Checking if they have checked the opponant
       if(GameLogic.checkCheck(one, b)) {
+    	  System.out.println(two.getColour() + " is in check");
     	  if(GameLogic.checkMate(b, one)) {
     		  finished = true;
     		  return;
@@ -71,6 +74,7 @@ public class GameRunner {
           }
           
           if(successfullTurn) {
+        	  GameLogic.promotion(b, two);
               g.printState();
            } else {
          	  System.out.println("Unsuccessfull turn please try again");
@@ -78,6 +82,7 @@ public class GameRunner {
            }
            
           if(GameLogic.checkCheck(two, b)) {
+        	  System.out.println(one.getColour() + " is in check");
         	  if(GameLogic.checkMate(b, two)) {
         		  finished = true;
         		  return;
