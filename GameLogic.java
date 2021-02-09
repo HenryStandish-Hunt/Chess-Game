@@ -103,7 +103,7 @@ public class GameLogic {
 		  oppPlayer.setName(temp);
 		  Board dup = b.duplicateBoard();
 		  Cell[][]testState = dup.getBoard();
-		  //Graphics test = new Graphics(dup);
+		  Graphics test = new Graphics(dup);
 	
 		  
 		  // go through the duplicate boards cells selecting all of them checking if they contain and opposition piece
@@ -125,12 +125,12 @@ public class GameLogic {
 		    	
 		    	 	if(MovementPath.isSuccessful()) {
 		    	 		MovementPath.setSuccessful(false);
-		    	 		//test.printState();
+		    	 		// see options debug test.printState();
 		    	 		if(!checkCheck(player,dup)) {
 		    		    return stillInCheck = false;
 		    	     }
 		    		 MovementPath.manualMove(dup, xMov,yMov, xSelect , ySelect );
-		    		// test.printState();
+		    		 // move back debug test.printState();
 		    	 }
 		    	 }
 		    	 }

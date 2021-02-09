@@ -2,6 +2,13 @@
 public class GameRunner {
 	
 	  public static void main(String[] args) {
+		  
+		  run();
+		  
+	  }
+	  
+	  public static boolean run() {
+		  
 	  boolean successfullTurn = false;
 	  boolean finished = false;	
       System.out.println("welcome to chess by Henry Standish-Hunt");
@@ -19,7 +26,10 @@ public class GameRunner {
    
        
  	  Graphics g = new Graphics(b);
+ 	  Gui ggg = new Gui(b);
  	  g.printState();
+ 	  ggg.setUpBoard();
+ 	  ggg.setState();
  	  System.out.println();
       /*for(int i = 0; i < 8; i++) {
     	// System.out.println( b.getCell(i,0).getOccupied());
@@ -44,6 +54,7 @@ public class GameRunner {
       if(successfullTurn) {
     	 GameLogic.promotion(b, one);
          g.printState();
+         ggg.setState();
       } else {
     	  System.out.println("Unsuccessfull turn please try again");
     	  System.out.println();
@@ -54,7 +65,7 @@ public class GameRunner {
     	  System.out.println(two.getColour() + " is in check");
     	  if(GameLogic.checkMate(b, one)) {
     		  finished = true;
-    		  return;
+    		  break;
     	  }
  	  }
  	  } while(!successfullTurn);
@@ -76,6 +87,7 @@ public class GameRunner {
           if(successfullTurn) {
         	  GameLogic.promotion(b, two);
               g.printState();
+              ggg.setState();
            } else {
          	  System.out.println("Unsuccessfull turn please try again");
          	 System.out.println();
@@ -85,7 +97,7 @@ public class GameRunner {
         	  System.out.println(one.getColour() + " is in check");
         	  if(GameLogic.checkMate(b, two)) {
         		  finished = true;
-        		  return;
+        		  break;
         	  }
           }
          
@@ -94,8 +106,10 @@ public class GameRunner {
           System.out.println("Successful turn player 2");
           System.out.println();
       }
+	return finished;
  	 }
  	 
 	
 
 }
+
