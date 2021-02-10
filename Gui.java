@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.*;
 
@@ -16,18 +17,18 @@ public class Gui {
 	
 	Board b;
 	JFrame frame = new JFrame();
-	JPanel[][] panels;
+	Tile[][] panels;
 	JPanel base;
-	
+	DragAndDrop dnd;
 	Gui(Board board){
 	 this.b = board;
 	}
 	
 	public void setUpBoard() {
-	    panels = new JPanel[8][8];
+	    panels = new Tile[8][8];
 	    base = new JPanel(new GridLayout(8,8));
 	    base.setName("BASE");
-	    DragAndDrop dnd = new DragAndDrop();
+	    dnd = new DragAndDrop();
 	    base.addMouseMotionListener(dnd);
 	    base.addMouseListener(dnd);
 	    // filling up JPanel array with JPanels that contain the names of the pieces in them
@@ -35,9 +36,11 @@ public class Gui {
 	    for(int i = 0; i < 8; i++) {
 		for(int j = 0; j < 8; j++) {
 			
-		panels[i][j] = new JPanel();
+		panels[i][j] = new Tile();
 		
-		panels[i][j].setName(" " +i+ " "+ j);
+		panels[i][j].setName(i+ " "+ j);
+		panels[i][j].setXpos(i);
+		panels[i][j].setYpos(j);
 		panels[i][j].setSize(new Dimension(100,100));
 		//panels[i][j].addMouseListener(new DragAndDrop(panels[i][j]));
 		
@@ -104,20 +107,62 @@ public class Gui {
 		        frame.repaint();
 	
 	}
+	public void setPrimedClick() {
+		dnd.setPrimed(true);
+	//	System.out.println("Set prime");
+	}
+	//not sure how to get the program to wait for a response and an empty while loop doesnt work
+	public int[] getSelectGetMov() {
+		dnd.setPrimed(true);
+		String s = "";
+		while(dnd.getPrimed()) {
+			//System.out.println(dnd.getPrimed());
+			System.out.print(s);
+		}
+		
+		return dnd.getCoord();
+	}
+	
+	public class Tile extends JPanel {
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+		
+		private int x;
+		private int y;
+		
+		public void setXpos(int x) {
+			this.x = x;
+		}
+		public void setYpos(int y) {
+			this.y = y;
+		}
+		//@Override
+		public int getXpos() {
+			return x;
+		}
+		//@Override
+		public int getYpos() {
+			return y;
+		}
+		
+	}
 
 	public class DragAndDrop implements MouseMotionListener, MouseListener{
+		boolean primed;
 		
-		private JLabel jl;
+		int[] coord = new int [4];
 		
-		private JPanel jp;
-		
-
 		@Override
 		public void mouseDragged(MouseEvent e) {
+			//click = true;
 			
 			Component hoverOver = base.getComponentAt(e.getX(), e.getY());
 			
-			System.out.println(" your dragging" + " " + hoverOver.getName());
+			//System.out.println(" your dragging" + " " + hoverOver.getName());
+			
 		}
 
 		@Override
@@ -129,28 +174,49 @@ public class Gui {
 			
 		}
 
-
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			int xSelect = e.getX();
-			int ySelect = e.getY();
-			System.out.println(" you have clicked " + base.getComponentAt(e.getX(), e.getY()));
+			// TODO Auto-generated method stub
+			
+			
 		}
-
 
 		@Override
 		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
+			System.out.println("start");
+			Component hoverOver = base.getComponentAt(e.getX(), e.getY());
+			String pos = hoverOver.getName();
 			
+			System.out.println(hoverOver.getX());
+			
+			int xSelect = Integer.parseInt(pos, 0, 1, 10);
+			int ySelect = Integer.parseInt(pos, 2, 3, 10);
+			if(primed) {
+			coord[0] = xSelect;
+			coord[1] = ySelect;
+			}
+			System.out.println("done");
 		}
-
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
+			System.out.println("end");
 			
+			Component hoverOver = base.getComponentAt(e.getX(), e.getY());
+			String pos = hoverOver.getName();
+			
+			System.out.println(hoverOver.getX());
+			
+			int xMov = Integer.parseInt(pos, 0, 1, 10);
+			int yMov = Integer.parseInt(pos, 2, 3, 10);
+			if(primed) {
+			coord[2] = xMov;
+			coord[3] = yMov;
+			}
+			setPrimed(false);
+			System.out.println("done");
+			System.out.println(Arrays.toString(coord));
 		}
-
 
 		@Override
 		public void mouseEntered(MouseEvent e) {
@@ -158,14 +224,24 @@ public class Gui {
 			
 		}
 
-
 		@Override
 		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
 			
 		}
+		public void setPrimed(boolean primed) {
+			this.primed = primed;
+		}
+		public boolean getPrimed() {
+			return primed;
+		}
 		
-		
+		public int[] getCoord() {
+			return coord;
+			
+		}
+
+
 	}
 	
 

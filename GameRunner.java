@@ -26,10 +26,10 @@ public class GameRunner {
    
        
  	  Graphics g = new Graphics(b);
- 	  Gui ggg = new Gui(b);
+ 	  Gui gameInterface = new Gui(b);
  	  g.printState();
- 	  ggg.setUpBoard();
- 	  ggg.setState();
+ 	  gameInterface.setUpBoard();
+ 	  gameInterface.setState();
  	  System.out.println();
       /*for(int i = 0; i < 8; i++) {
     	// System.out.println( b.getCell(i,0).getOccupied());
@@ -42,7 +42,7 @@ public class GameRunner {
  	  while(!finished) {
  	  // player 1s turn	 
  	  do {
-      MovementPath.playerTurn(b, one);
+      MovementPath.playerTurn(b, one, gameInterface);
       successfullTurn = MovementPath.isSuccessful();
          
       //Checking if the player has moved themselves into check
@@ -54,7 +54,8 @@ public class GameRunner {
       if(successfullTurn) {
     	 GameLogic.promotion(b, one);
          g.printState();
-         ggg.setState();
+         gameInterface.setState();
+        
       } else {
     	  System.out.println("Unsuccessfull turn please try again");
     	  System.out.println();
@@ -65,7 +66,7 @@ public class GameRunner {
     	  System.out.println(two.getColour() + " is in check");
     	  if(GameLogic.checkMate(b, one)) {
     		  finished = true;
-    		  break;
+    		  return true;
     	  }
  	  }
  	  } while(!successfullTurn);
@@ -76,7 +77,7 @@ public class GameRunner {
       
       //Player twos turn
           do {
-          MovementPath.playerTurn(b, two);
+          MovementPath.playerTurn(b, two, gameInterface);
           successfullTurn = MovementPath.isSuccessful();         
           //Checking if the player has moved themselves into check and undoing if so else printing the new state
           if(GameLogic.checkCheck(one, b)) {
@@ -87,7 +88,8 @@ public class GameRunner {
           if(successfullTurn) {
         	  GameLogic.promotion(b, two);
               g.printState();
-              ggg.setState();
+              gameInterface.setState();
+              
            } else {
          	  System.out.println("Unsuccessfull turn please try again");
          	 System.out.println();
@@ -97,7 +99,7 @@ public class GameRunner {
         	  System.out.println(one.getColour() + " is in check");
         	  if(GameLogic.checkMate(b, two)) {
         		  finished = true;
-        		  break;
+        		  return true;
         	  }
           }
          

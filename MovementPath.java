@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.Scanner;
 public class MovementPath {
 	
@@ -10,17 +11,65 @@ public class MovementPath {
 	private static int lastMoveEndyPos;
 	private static Piece lastPieceInCell;
 
+	public static void playerTurn(Board b, Player player, Gui gameInterface) {
+		int xSelect;
+		int ySelect;
+		int xMov;
+		int yMov;
+		boolean correct = false;
+		int [] selection;
+	
+		
+		do {
+		setTest(false);	
+		//gameInterface.setPrimedClick(); 
+	
+		selection = gameInterface.getSelectGetMov();
+		xSelect = selection[0];
+		ySelect = selection[1];
+		xMov = selection[2];
+		yMov = selection[3];
+		
+	     
+		System.out.println(Arrays.toString(selection) + "selection pre");
+		
+		if(b.getCell(xSelect, ySelect).getOccupied()) {
+			
+			//Checking if selecting opponants piece
+			if(b.getCell(xSelect, ySelect).getPiece().getColour().equals(player.getColour())) {
+			correct = true;
+			//System.out.println("horstache");
+		    }
+			
+			
+		}
+		if((selection[0] == 0 && selection[1] == 0 && selection[2] == 0 && selection[3] == 0) ||
+				selection[0] == selection[2] && selection[1] == selection[3]) {
+			correct = false;
+		} 
+		
+		}while(!correct);
+		System.out.println(Arrays.toString(selection));
+		System.out.println("Here i am" + correct);
+
+		movementPath(b, player, xSelect, ySelect, xMov, yMov);
+		
+	}
+	
+
 	public static void playerTurn(Board b, Player player) {
 		int xSelect;
 		int ySelect;
 		int xMov;
 		int yMov;
 		boolean correct = false;
+		int [] selection;
 		
 		do {
 		setTest(false);	
 		System.out.println("Hello " + player.getName() + " please type the coordinate of the chess piece you are selecting ");
 		System.out.println("Please use formate X Y with the coordinates filled with integers between 0-7");
+		
 		xSelect = scan.nextInt();
 		ySelect = scan.nextInt();
 		
@@ -30,16 +79,16 @@ public class MovementPath {
 		
 			//Checking if selecting opponants piece
 			if(b.getCell(xSelect, ySelect).getPiece().getColour().equals(player.getColour())) {
-			System.out.println();
+			//System.out.println();
 			correct = true;
 		    }else {
-		    	System.out.println("That isnt your piece please Re select");
-				System.out.println();
+		    //	System.out.println("That isnt your piece please Re select");
+			//	System.out.println();
 		    }
 		
 		} else {
-			System.out.println("That cell is unoccupied please Re select");
-			System.out.println();
+		//	System.out.println("That cell is unoccupied please Re select");
+		//	System.out.println();
 			
 		}
 		
@@ -48,10 +97,11 @@ public class MovementPath {
 		 correct = false;
 		 
 		do {
-			System.out.println("Hello again player please type the coordinate cell the piece is moving to ");
-			System.out.println("Please use formate X Y with the coordinates filled with integers between 0-7");
+			//System.out.println("Hello again player please type the coordinate cell the piece is moving to ");
+			//System.out.println("Please use formate X Y with the coordinates filled with integers between 0-7");
 			xMov = scan.nextInt();
 			yMov = scan.nextInt();
+		
 			System.out.println(xMov + " X Coordinant " + yMov + " Y Coordinant");
 			System.out.println();
 			correct = true;
