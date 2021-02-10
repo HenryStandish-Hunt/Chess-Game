@@ -58,13 +58,16 @@ public class GameRunner {
         
       } else {
     	  System.out.println("Unsuccessfull turn please try again");
+    	  gameInterface.setSideText("Unsuccessfull turn please try again \n \n" + one.getColour());
     	  System.out.println();
       }
       
       // Checking if they have checked the opponant
       if(GameLogic.checkCheck(one, b)) {
+    	  gameInterface.setSideText("You are in check \n \n" + two.getColour());
     	  System.out.println(two.getColour() + " is in check");
     	  if(GameLogic.checkMate(b, one)) {
+    		  gameInterface.setSideText("Check mate you lose \n \n" + two.getColour());
     		  finished = true;
     		  return true;
     	  }
@@ -73,6 +76,7 @@ public class GameRunner {
  	  
  	  System.out.println();
       System.out.println("Successful turn player 1");
+      gameInterface.setSideText("Success!! \n \n" + two.getColour() + " turn");
       System.out.println();
       
       //Player twos turn
@@ -91,14 +95,17 @@ public class GameRunner {
               gameInterface.setState();
               
            } else {
-         	  System.out.println("Unsuccessfull turn please try again");
+         	 System.out.println("Unsuccessfull turn please try again");
+         	 gameInterface.setSideText("Unsuccessfull turn please try again \n \n" + two.getColour());
          	 System.out.println();
            }
            
           if(GameLogic.checkCheck(two, b)) {
         	  System.out.println(one.getColour() + " is in check");
+        	  gameInterface.setSideText("You are in check \n \n" + one.getColour());
         	  if(GameLogic.checkMate(b, two)) {
         		  finished = true;
+        		  gameInterface.setSideText("Check mate you lose \n \n" + one.getColour());
         		  return true;
         	  }
           }
@@ -106,6 +113,7 @@ public class GameRunner {
      	  } while(!successfullTurn);
           System.out.println();
           System.out.println("Successful turn player 2");
+          gameInterface.setSideText("Success!! \n \n" + one.getColour() + " turn");
           System.out.println();
       }
 	return finished;
