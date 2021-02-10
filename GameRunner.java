@@ -19,17 +19,20 @@ public class GameRunner {
       one.setName("One");
       two.setName("Two");
       b.startBoard("Black", b);
-       
+      String check = "";
      
      //System.out.println(b.getCell(0, 1).getOccupied());
  	 //System.out.println( b.getCell(4,0).getPiece().getName());
    
        
- 	  Graphics g = new Graphics(b);
+ 	  //Graphics g = new Graphics(b);
  	  Gui gameInterface = new Gui(b);
- 	  g.printState();
+ 	  //g.printState();
  	  gameInterface.setUpBoard();
  	  gameInterface.setState();
+ 	  
+ 	 // gameInterface.promotionChoice();
+ 	  
  	  System.out.println();
       /*for(int i = 0; i < 8; i++) {
     	// System.out.println( b.getCell(i,0).getOccupied());
@@ -53,7 +56,7 @@ public class GameRunner {
       //Check for Prawn promotion aswell as print state or error message
       if(successfullTurn) {
     	 GameLogic.promotion(b, one);
-         g.printState();
+        // g.printState();
          gameInterface.setState();
         
       } else {
@@ -64,10 +67,11 @@ public class GameRunner {
       
       // Checking if they have checked the opponant
       if(GameLogic.checkCheck(one, b)) {
-    	  gameInterface.setSideText("You are in check \n \n" + two.getColour());
+    	 // gameInterface.setSideText("You are in check \n \n" + two.getColour());
+    	  check = "you are in check";
     	  System.out.println(two.getColour() + " is in check");
     	  if(GameLogic.checkMate(b, one)) {
-    		  gameInterface.setSideText("Check mate you lose \n \n" + two.getColour());
+    		  gameInterface.setSideText("Check mate you lose!!! \n \n" + two.getColour());
     		  finished = true;
     		  return true;
     	  }
@@ -76,9 +80,9 @@ public class GameRunner {
  	  
  	  System.out.println();
       System.out.println("Successful turn player 1");
-      gameInterface.setSideText("Success!! \n \n" + two.getColour() + " turn");
+      gameInterface.setSideText("Success!! \n \n" + check + " "+ two.getColour() + " turn");
       System.out.println();
-      
+      check ="";
       //Player twos turn
           do {
           MovementPath.playerTurn(b, two, gameInterface);
@@ -91,7 +95,7 @@ public class GameRunner {
           
           if(successfullTurn) {
         	  GameLogic.promotion(b, two);
-              g.printState();
+              //g.printState();
               gameInterface.setState();
               
            } else {
@@ -102,19 +106,22 @@ public class GameRunner {
            
           if(GameLogic.checkCheck(two, b)) {
         	  System.out.println(one.getColour() + " is in check");
-        	  gameInterface.setSideText("You are in check \n \n" + one.getColour());
+        	  check = "you are in check";
+        	  
         	  if(GameLogic.checkMate(b, two)) {
         		  finished = true;
-        		  gameInterface.setSideText("Check mate you lose \n \n" + one.getColour());
+        		  gameInterface.setSideText("Check mate you lose !!!\n \n" + one.getColour());
         		  return true;
         	  }
           }
          
      	  } while(!successfullTurn);
+        
           System.out.println();
           System.out.println("Successful turn player 2");
-          gameInterface.setSideText("Success!! \n \n" + one.getColour() + " turn");
+          gameInterface.setSideText("Success!! \n \n" + check + " " + one.getColour() + " turn");
           System.out.println();
+          check = "";
       }
 	return finished;
  	 }

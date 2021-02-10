@@ -9,9 +9,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Gui {
@@ -27,6 +31,7 @@ public class Gui {
 	JMenuBar menuBar;
 	ActionManager actionMan;
 	JTextArea sideTextArea;
+	String imagePath = "Chess Pieces designs/FirstSet/";
 	
 	Gui(Board board){
 	 this.b = board;
@@ -126,13 +131,17 @@ public class Gui {
 	public void setUpMenuBar() {
 		menuBar = new JMenuBar();
 		
-		JMenu m1 = new JMenu("testing testing mic one");
+		JMenu settings = new JMenu("Settings");
+		
+		JMenuItem exit = new JMenuItem("Exit");
+		exit.addActionListener(actionMan);
 		
 		JMenuItem newGame = new JMenuItem("New Game"); 
 		newGame.addActionListener(actionMan);
 		
-		m1.add(newGame);
-		menuBar.add(m1);
+		settings.add(newGame);
+		settings.add(exit);
+		menuBar.add(settings);
 		
 	}
 	
@@ -154,13 +163,26 @@ public class Gui {
 		        for(int i = 0; i < 8; i++) {
 				for(int j = 0; j < 8; j++) {
 				String text = "";
-				
+				BufferedImage image;
+				JLabel jl = new JLabel();
 				if(state[i][j].getOccupied()) {
-					text = state[i][j].getPiece().getName() + " " + state[i][j].getPiece().getColour().substring(0, 1);
+					text = state[i][j].getPiece().getName() + state[i][j].getPiece().getColour().substring(0, 1);
+					
+					try {
+						 image = ImageIO.read(new File(imagePath + text + ".png"));
+						 jl = new JLabel(new ImageIcon(image));
+						
+						
+					} catch (IOException e) {
+						System.out.println("chess piece image error");
+						System.out.println(imagePath + text +".png");
+						e.printStackTrace();
+					}
 					
 				}
-				JLabel jl = new JLabel();
-				jl.setText(text);
+				
+				//jl.setText(text);
+				
 				panels[i][j].add(jl);
 				panels[i][j].revalidate();;
 				}
@@ -181,11 +203,38 @@ public class Gui {
 		
 		return dnd.getCoord();
 	}
+	// Gets input for promotion choice
+	public static int promotionChoice() {
+		
+		String[] choices = { "Queen", "Rook", "Knight", "Bishop"};   
+		// get custom icon for this later
+		//ImageIcon icon = new ImageIcon();
+		int choiceValue = JOptionPane.showOptionDialog(null, "Please select what piece you want", "Prawn Promotion",
+		        JOptionPane.DEFAULT_OPTION, 0, null, choices, choices[0]);
+		
+		System.out.println(choiceValue);
+		
+		return choiceValue + 1;
+	}
+	//Listens to events sorts the origin and produces the actions
 	public class ActionManager implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println(e.getModifiers() + " light camara action");
+			System.out.println(" light camara action");
+			String caller = e.getActionCommand();
+			
+			System.out.println(caller);
+			
+			switch(caller) {
+			
+			case "Exit":
+			   System.exit(0);
+			break;
+			case "New Game":
+				 System.out.println(" Round two san");
+			break;
+			}
 			
 			
 		}
@@ -285,38 +334,5 @@ public class Gui {
 
 
 	}
-	
-
-// testing platform 
-	/*
-public static void main(String[] args) {
-	 boolean finished = false;	
-     System.out.println("welcome to chess by Henry Standish-Hunt");
-     System.out.println();
-     Board b = new Board();
-     Player one = new Player("White");
-     Player two = new Player("Black");
-     one.setName("One");
-     two.setName("Two");
-     b.startBoard("Black", b);
-   
-  //  System.out.println(b.getCell(0, 1).getOccupied());
-	 //System.out.println( b.getCell(4,0).getPiece().getName());
-  
-     
-	Graphics g = new Graphics(b);
-	g.printState();
-	System.out.println();
-   System.out.println();
-	System.out.println();
-
-	
-	
-	Gui gg = new Gui(b);
-	//gg.printBoard();
-	gg.setUpBoard();
-	gg.setState();
-	
-}*/
 }
 	

@@ -125,9 +125,12 @@ public class GameLogic {
 		    	
 		    	 	if(MovementPath.isSuccessful()) {
 		    	 		MovementPath.setSuccessful(false);
-		    	 		// see options debug test.printState();
+		    	 		// see options debug 
+		    	 		test.printState();
+		    	 		System.out.println();
 		    	 		if(!checkCheck(player,dup)) {
-		    		    return stillInCheck = false;
+		    		    System.out.println("Not check mate because of previouse state");
+		    	 		return stillInCheck = false;
 		    	     }
 		    		 MovementPath.manualMove(dup, xMov,yMov, xSelect , ySelect );
 		    		 // move back debug test.printState();
@@ -161,19 +164,13 @@ public class GameLogic {
     		if(currentState[i][yPosGoal].getOccupied() && currentState[i][yPosGoal].getColour().equals(colour)) {
     			
     		   if(currentState[i][yPosGoal].getPiece().getName().contentEquals("Prawn")) {
-    			   Scanner scan = new Scanner(System.in);
+    			  // Scanner scan = new Scanner(System.in);
     			   Piece piece = currentState[i][yPosGoal].getPiece();
-    			   int choice = 0;
+    			  
     			   System.out.println(" Your Prawn can now be promoted ");
     			   
-    			   do {
-    				    System.out.println("Please enter number to select 1 Queen 2 Rook 3 Knight 4 Bishop");
-    				   
-    				    choice = scan.nextInt(); 
+    			   int choice = Gui.promotionChoice();
     			   
-    			   
-    			   
-    		       }while(choice < 1 || choice > 4 );
     			   
     			   switch(choice) {
     				
@@ -191,8 +188,8 @@ public class GameLogic {
     					break;  
     		        }
     		      }
-    	       }
-               }
+    	   }
+         }
 		
     }
 }
