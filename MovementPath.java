@@ -1,7 +1,7 @@
+import java.util.Arrays;
 import java.util.Scanner;
 public class MovementPath {
 	
-	private static Scanner scan = new Scanner(System.in);
 	private static boolean successful = false;
 	private static boolean test = false;
 	private static int lastMoveStartxPos;
@@ -10,61 +10,50 @@ public class MovementPath {
 	private static int lastMoveEndyPos;
 	private static Piece lastPieceInCell;
 
-	public static void playerTurn(Board b, Player player) {
+	public static void playerTurn(Board b, Player player, Gui gameInterface) {
 		int xSelect;
 		int ySelect;
 		int xMov;
 		int yMov;
 		boolean correct = false;
+		int [] selection;
+	
 		
 		do {
 		setTest(false);	
-		System.out.println("Hello " + player.getName() + " please type the coordinate of the chess piece you are selecting ");
-		System.out.println("Please use formate X Y with the coordinates filled with integers between 0-7");
-		xSelect = scan.nextInt();
-		ySelect = scan.nextInt();
+		//gameInterface.setPrimedClick(); 
+	
+		selection = gameInterface.getSelectGetMov();
+		xSelect = selection[0];
+		ySelect = selection[1];
+		xMov = selection[2];
+		yMov = selection[3];
+		
+	     
+		System.out.println(Arrays.toString(selection) + "selection pre");
 		
 		if(b.getCell(xSelect, ySelect).getOccupied()) {
 			
-		System.out.println(b.getCell(xSelect, ySelect).getColour() + " " + b.getCell(xSelect, ySelect).getPiece().getName());
-		
 			//Checking if selecting opponants piece
 			if(b.getCell(xSelect, ySelect).getPiece().getColour().equals(player.getColour())) {
-			System.out.println();
 			correct = true;
-		    }else {
-		    	System.out.println("That isnt your piece please Re select");
-				System.out.println();
 		    }
-		
-		} else {
-			System.out.println("That cell is unoccupied please Re select");
-			System.out.println();
+			
 			
 		}
+		if((selection[0] == 0 && selection[1] == 0 && selection[2] == 0 && selection[3] == 0) ||
+				selection[0] == selection[2] && selection[1] == selection[3]) {
+			correct = false;
+		} 
 		
-		} while(!correct);
-		
-		 correct = false;
-		 
-		do {
-			System.out.println("Hello again player please type the coordinate cell the piece is moving to ");
-			System.out.println("Please use formate X Y with the coordinates filled with integers between 0-7");
-			xMov = scan.nextInt();
-			yMov = scan.nextInt();
-			System.out.println(xMov + " X Coordinant " + yMov + " Y Coordinant");
-			System.out.println();
-			correct = true;
-			/*System.out.println("Is this correct type y or n");
-			if(	scan.next().equals("y")){
-				correct = true;
-			}*/
-			} while(!correct);
-		 
+		}while(!correct);
+		System.out.println(Arrays.toString(selection));
+		System.out.println("Here i am" + correct);
 
 		movementPath(b, player, xSelect, ySelect, xMov, yMov);
 		
 	}
+	
 	
 	
 	public static void movementPath(Board b, Player player, int xSelect, int ySelect, int xMov, int yMov) {
@@ -102,22 +91,14 @@ public class MovementPath {
 			
 		// after Check if castling and if the pieces havent moved and are on the same y Co ord
 			if(p.getName().equals("King") && b.getCell(xMov, yMov).getPiece().getName().equals("Rook")) {
-			   if(p.getNumMoves() < 1 && b.getCell(xMov, yMov).getPiece().getNumMoves() < 1) {
-				   if(p.getyPos() == b.getCell(xMov, yMov).getPiece().getyPos()) {
-					   castling(p, b, xMov, yMov, player);
-					   return;
-				   }
-			   }
-		    } else {
-		    if(!isTest()) {
-			//System.out.println("movement path invalid cant take own piece");
-		    }
+			   
+				castling(p, b, xMov, yMov, player);
+			   
+		   }
 			return;
-		    }
-		}
+		 }
 		
-		
-		
+	
 		switch(p.getName()) {
 		
 		case "King":
@@ -206,11 +187,13 @@ public class MovementPath {
 		else if(xMov == p.getxPos() && yMov < p.getyPos()) {
 			checkDown(p,  b,  xMov,  yMov, player);
 		}
-		else if(yMov == p.getyPos() && xMov < p.getyPos()) {
+		else if(yMov == p.getyPos() && xMov < p.getxPos()) {
+			System.out.println("rook left");
 			checkLeft(p,  b,  xMov,  yMov, player);
 		}
 		
-		else if(yMov == p.getyPos() && xMov > p.getyPos()) {
+		else if(yMov == p.getyPos() && xMov > p.getxPos()) {
+			System.out.println("rook right");
 			checkRight(p,  b,  xMov,  yMov, player);
 		}
 		else {
@@ -262,12 +245,33 @@ public class MovementPath {
 		//	System.out.println("Prawns Cant move laterally unless taking");
 			 return;
 		}
+		
 		if(b.getCell(xMov, yMov).getOccupied() && Math.abs(xMov - p.getxPos()) > 1) {
 			// System.out.println("Prawns Cant move laterally more than one while taking");
 			 return;
 		}
+		// trying to fix bug
+		if(Math.abs(yMov - p.getyPos()) > 1 && Math.abs(xMov - p.getxPos()) == 1) {
+			// System.out.println("Prawns Cant move laterally and vertically more than 1 space");
+			 return;
+		}
+		//prawns cant take forward
+		if(b.getCell(xMov, yMov).getOccupied() && xMov == p.getxPos()){
+			// System.out.println("Prawns Cant take vertically");
+			 return;
+		}
 		
-		finishMove(p, b, xMov, yMov, player);
+		//Checking their not jumping over pieces when they make a double move
+		if(yMov > p.getyPos()) {
+			System.out.println("moving up prawn");
+			checkUp(p,  b,  xMov,  yMov, player);
+		}
+		if(yMov < p.getyPos()) {
+			checkDown(p,  b,  xMov,  yMov, player);
+		}
+		
+		
+		//finishMove(p, b, xMov, yMov, player);
 		
 		
 	}
@@ -409,10 +413,11 @@ public class MovementPath {
     }
     
     private static void checkLeft(Piece p, Board b, int xMov, int yMov, Player player){
-   
+    	
     	for(int i = p.getxPos() - 1; i > xMov; i--) {
+    		
     		if(b.getCell(i, p.getyPos()).getOccupied()){
-    		//System.out.println("Cant jump over piece invalid move");
+    	    //System.out.println("Cant jump over piece invalid move");
     		return;
     	    }
         }
@@ -496,6 +501,8 @@ public class MovementPath {
 	public static void undoLastMove(Board b) {
 		
 		Piece p = b.getCell(lastMoveEndxPos, lastMoveEndyPos).getPiece();	
+		//debug
+		System.out.println("undoLastMove" + p + lastMoveEndxPos + " " + lastMoveEndyPos);
     	b.setCellEmpty(p.getxPos(), p.getyPos());
     	b.getCell(lastMoveStartxPos, lastMoveStartyPos).setPiece(p);
     	p.setX(lastMoveStartxPos);
@@ -508,7 +515,7 @@ public class MovementPath {
     	
 		MovementPath.setSuccessful(false);
 	}
-	
+	 
 	//method works out if a legal castle is possible 
 	public static void castling(Piece p, Board b, int xMov, int yMov,Player player){
 		int xPos = p.getxPos();
@@ -517,6 +524,13 @@ public class MovementPath {
 	//first check if any pieces to jump over making it invalid
 	// then check if any are in check
 		Piece rook = b.getCell(xMov,yMov).getPiece();
+		
+		 if(p.getNumMoves() > 0 || rook.getNumMoves() > 0) {
+		   return;
+		 }
+		 if(p.getyPos() != rook.getyPos()) {
+		   return;
+		 }
 		
 		int kingNewxPos = 0;
 		int rookNewxPos = 0;

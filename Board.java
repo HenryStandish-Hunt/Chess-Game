@@ -39,9 +39,9 @@ public class Board {
 		board[x][y].setPiece(null);
 	
 	}
-	
+	 
 	//Fills start board to regulation chess board
-	public void startBoard(String playerColour, Board b) {
+	public void startBoard(Board b) {
 		 
 	    //SetUp line of white prawns	
 		for(int i = 0; i < 8; i++) {
