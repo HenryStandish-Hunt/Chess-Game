@@ -2,7 +2,7 @@
 public class Cell {
 	
 	private Piece piece;
-	
+	 
 	private boolean occupied;
 	
 	private String colour;

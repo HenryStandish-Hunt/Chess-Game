@@ -18,7 +18,7 @@ import java.util.Arrays;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
-public class Gui {
+public class Gui { 
 	
 	Board b;
 	JFrame frame = new JFrame();

@@ -1,6 +1,6 @@
 
 public class Graphics {
-	
+	 
 	Board b;
 	
 	Graphics(Board board){

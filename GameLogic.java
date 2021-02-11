@@ -126,7 +126,7 @@ public class GameLogic {
 		    	 	if(MovementPath.isSuccessful()) {
 		    	 		MovementPath.setSuccessful(false);
 		    	 		// see options debug 
-		    	 		test.printState();
+		    	 		test.printState(); 
 		    	 		System.out.println();
 		    	 		if(!checkCheck(player,dup)) {
 		    		    System.out.println("Not check mate because of previouse state");

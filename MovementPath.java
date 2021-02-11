@@ -515,7 +515,7 @@ public class MovementPath {
     	
 		MovementPath.setSuccessful(false);
 	}
-	
+	 
 	//method works out if a legal castle is possible 
 	public static void castling(Piece p, Board b, int xMov, int yMov,Player player){
 		int xPos = p.getxPos();

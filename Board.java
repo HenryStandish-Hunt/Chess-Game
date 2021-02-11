@@ -39,7 +39,7 @@ public class Board {
 		board[x][y].setPiece(null);
 	
 	}
-	
+	 
 	//Fills start board to regulation chess board
 	public void startBoard(Board b) {
 		 
