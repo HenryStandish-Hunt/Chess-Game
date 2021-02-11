@@ -25,6 +25,16 @@ public class GameRunner {
 	 	  
 		  gameLoop(b,one,two,gameInterface);
 		  
+		  // tring to get new game to work
+		  System.out.println("game two");
+		  
+		  Board c = new Board();
+		  c.startBoard(c);
+		  gameInterface.setBoard(c);
+		  gameInterface.setSideText("Welcome to Game 2 \n To start Game player 1 drag and drop a white piece\"");
+		  gameInterface.setState();
+		  gameLoop(c,one,two,gameInterface);
+		  
 	  }
  	 
 	  private static boolean gameLoop(Board b, Player one, Player two, Gui gameInterface) {
@@ -37,12 +47,16 @@ public class GameRunner {
 			  do {
 			    turnOneSuccess = playerTurn(b,one,two,gameInterface);  
 			  }while(!turnOneSuccess);
-			 
+			  
+			  if(gameComplete) {
+				  break;
+			  }
+				 
 			  do {
 		        turnTwoSuccess = playerTurn(b,two,one,gameInterface);
 			  }while(!turnTwoSuccess);
 		  }
-		  
+		  System.out.println("game complete");
 		  return gameComplete;
 	  }
 	  

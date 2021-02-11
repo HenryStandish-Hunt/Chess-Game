@@ -224,6 +224,11 @@ public class Gui {
 		JOptionPane.showOptionDialog(null, message, "Game Over", JOptionPane.DEFAULT_OPTION, 1, null, null, null);
 		
 	}
+	
+	public void setBoard(Board board) {
+	this.b = board;	
+	}
+	
 	//Listens to events sorts the origin and produces the actions
 	public class ActionManager implements ActionListener {
 
