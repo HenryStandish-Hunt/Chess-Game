@@ -1,0 +1,16 @@
+/Board.class
+/Cell.class
+/GameLogic.class
+/GamePiece.class
+/GameRunner.class
+/Graphics.class
+/MovementPath.class
+/Piece.class
+/Player.class
+/AutomatedTesting.class
+/Gui.class
+/Gui$BoardPanel.class
+/Gui$DragAndDrop.class
+/Gui$Cell.class
+/Gui$Tile.class
+/Gui$ActionManager.class
