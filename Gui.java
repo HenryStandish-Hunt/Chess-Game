@@ -98,6 +98,8 @@ public class Gui {
 		frame.add(sidePanel);
 		frame.setJMenuBar(menuBar);
 		frame.setSize(1200, 860);
+		
+		frame.setTitle("Chess Game");
 		frame.setVisible(true);
 	}
 	
@@ -210,11 +212,17 @@ public class Gui {
 		// get custom icon for this later
 		//ImageIcon icon = new ImageIcon();
 		int choiceValue = JOptionPane.showOptionDialog(null, "Please select what piece you want", "Prawn Promotion",
-		        JOptionPane.DEFAULT_OPTION, 0, null, choices, choices[0]);
+		        JOptionPane.DEFAULT_OPTION, 2, null, choices, choices[0]);
 		
 		System.out.println(choiceValue);
 		
 		return choiceValue + 1;
+	}
+	public static void checkMateDialog(Player player) {
+		String colour = player.getColour();
+		String message = "Check mate " + colour + " is the Winner !!!";
+		JOptionPane.showOptionDialog(null, message, "Game Over", JOptionPane.DEFAULT_OPTION, 1, null, null, null);
+		
 	}
 	//Listens to events sorts the origin and produces the actions
 	public class ActionManager implements ActionListener {
