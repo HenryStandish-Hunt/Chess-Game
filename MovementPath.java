@@ -256,11 +256,13 @@ public class MovementPath {
 		else if(xMov == p.getxPos() && yMov < p.getyPos()) {
 			checkDown(p,  b,  xMov,  yMov, player);
 		}
-		else if(yMov == p.getyPos() && xMov < p.getyPos()) {
+		else if(yMov == p.getyPos() && xMov < p.getxPos()) {
+			System.out.println("rook left");
 			checkLeft(p,  b,  xMov,  yMov, player);
 		}
 		
-		else if(yMov == p.getyPos() && xMov > p.getyPos()) {
+		else if(yMov == p.getyPos() && xMov > p.getxPos()) {
+			System.out.println("rook right");
 			checkRight(p,  b,  xMov,  yMov, player);
 		}
 		else {
@@ -475,10 +477,11 @@ public class MovementPath {
     }
     
     private static void checkLeft(Piece p, Board b, int xMov, int yMov, Player player){
-   
+    	
     	for(int i = p.getxPos() - 1; i > xMov; i--) {
+    		
     		if(b.getCell(i, p.getyPos()).getOccupied()){
-    		//System.out.println("Cant jump over piece invalid move");
+    	    //System.out.println("Cant jump over piece invalid move");
     		return;
     	    }
         }
@@ -562,6 +565,8 @@ public class MovementPath {
 	public static void undoLastMove(Board b) {
 		
 		Piece p = b.getCell(lastMoveEndxPos, lastMoveEndyPos).getPiece();	
+		//debug
+		System.out.println("undoLastMove" + p + lastMoveEndxPos + " " + lastMoveEndyPos);
     	b.setCellEmpty(p.getxPos(), p.getyPos());
     	b.getCell(lastMoveStartxPos, lastMoveStartyPos).setPiece(p);
     	p.setX(lastMoveStartxPos);
