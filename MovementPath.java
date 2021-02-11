@@ -312,12 +312,28 @@ public class MovementPath {
 		//	System.out.println("Prawns Cant move laterally unless taking");
 			 return;
 		}
+		
 		if(b.getCell(xMov, yMov).getOccupied() && Math.abs(xMov - p.getxPos()) > 1) {
 			// System.out.println("Prawns Cant move laterally more than one while taking");
 			 return;
 		}
+		// trying to fix bug
+		if(Math.abs(yMov - p.getyPos()) > 1 && Math.abs(xMov - p.getxPos()) == 1) {
+			// System.out.println("Prawns Cant move laterally and vertically more than 1 space");
+			 return;
+		}
 		
-		finishMove(p, b, xMov, yMov, player);
+		//Checking their not jumping over pieces when they make a double move
+		if(yMov > p.getyPos()) {
+			System.out.println("moving up prawn");
+			checkUp(p,  b,  xMov,  yMov, player);
+		}
+		if(yMov < p.getyPos()) {
+			checkDown(p,  b,  xMov,  yMov, player);
+		}
+		
+		
+		//finishMove(p, b, xMov, yMov, player);
 		
 		
 	}
