@@ -14,3 +14,7 @@
 /Gui$Cell.class
 /Gui$Tile.class
 /Gui$ActionManager.class
+/GameManager.class
+/LocalMultiplayerGame.class
+/singlePlayerGame.class
+/ComputerPlayer.class

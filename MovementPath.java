@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import java.util.Scanner;
 public class MovementPath {
 	
 	private static boolean successful = false;
