@@ -12,11 +12,20 @@ public class GameRunner {
 	  
 	  public static void start() {
 		  Gui gameInterface = new Gui();
-		  //GameManager local = new singlePlayerGame();
-		  GameManager local = new LocalMultiplayerGame();
+		  boolean finished = false;
+		  GameManager local = null;
+	     
+		  int choice = gameInterface.chooseGameType();
+		  if(choice == 0) {
+		   local = new singlePlayerGame();
+		  }
+		  if(choice == 1) {
+			  local = new LocalMultiplayerGame();
+		  }
 		  local.setUpAndPlay(gameInterface);
 		  System.out.println("hopefully im here at end");
-	  }
+	  
+	 }
 
 }
 

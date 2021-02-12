@@ -221,6 +221,14 @@ public class Gui {
 		return choiceValue;
 	}
 	
+	public int chooseGameType() {
+		String[] choices = { "Single Player", "Local Multiplayer", "Online Multiplayer"};  
+		
+		String message = "Choose what type of game you would like to play";
+		int choiceValue = JOptionPane.showOptionDialog(null, message, "Welcome to chess the GAME", JOptionPane.DEFAULT_OPTION, 1, null, choices, choices[0]);
+		return choiceValue;
+	}
+	
 	public void setBoard(Board board) {
 	this.b = board;	
 	}
