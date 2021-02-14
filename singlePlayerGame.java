@@ -21,7 +21,8 @@ public class singlePlayerGame extends GameManager{
 	      b.startBoard(b); 
 	 	  gameInterface.setGame(this);
 	 	  gameInterface.setBoard(b);
-	 	  gameInterface.setUpBoard();
+	 	  //can set up board prior instead
+	 	  //gameInterface.setUpBoard();
 	 	  gameInterface.setState();
 	 	  gameLoop();
 	 	  while(!quit) {
@@ -160,6 +161,11 @@ public class singlePlayerGame extends GameManager{
 	      
 	     return successfullTurn;
 }
+	@Override
+	public void resign() {
+		gameComplete = true;
+		quit = true;
+	}
 
 
 }

@@ -30,6 +30,7 @@ public class Gui {
 	ActionManager actionMan;
 	JTextArea sideTextArea;
 	String imagePath = "Chess Pieces designs/FirstSet/";
+	boolean resignation;
 	
 	
 	public void setUpBoard() {
@@ -132,10 +133,18 @@ public class Gui {
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.addActionListener(actionMan);
 		
-		JMenuItem newGame = new JMenuItem("New Game"); 
-		newGame.addActionListener(actionMan);
+		JMenuItem resign = new JMenuItem("Resign Current Game"); 
+		resign.addActionListener(actionMan);
 		
-		settings.add(newGame);
+		JMenuItem newGameSinglePlayer = new JMenuItem("New Single Player Game"); 
+		newGameSinglePlayer.addActionListener(actionMan);
+		
+		JMenuItem newGameLocalMulti = new JMenuItem("New Local Multiplayer Game"); 
+		newGameLocalMulti.addActionListener(actionMan);
+		
+		settings.add(resign);
+		settings.add(newGameSinglePlayer);
+		settings.add(newGameLocalMulti);
 		settings.add(exit);
 		menuBar.add(settings);
 		
@@ -189,9 +198,17 @@ public class Gui {
 	//doesn't work so printing an empty string was my solution
 	public int[] getSelectGetMov() {
 		dnd.setPrimed(true);
+		resignation = false;
 		String s = "";
 		while(dnd.getPrimed()) {
 			//System.out.println(dnd.getPrimed());
+			if(resignation == true) {
+				System.out.println("resignation true in gui");
+				dnd.setPrimed(false);
+				int[] resReturn = new int[4];
+				resReturn[0] = 99;
+ 				return resReturn;
+			}
 			System.out.print(s);
 		}
 		
@@ -252,9 +269,23 @@ public class Gui {
 			
 			   System.exit(0);
 			break;
-			case "quit game":
-				
+			case "Resign Current Game":
+				System.out.println("here i resign");
+				resignation = true;
+				currentGame.resign();
+				GameRunner.setGameType(0);
 			break;
+			case "New Single Player Game":
+				System.out.println("gui new single game action man");
+				resignation = true;
+				currentGame.resign();
+				GameRunner.setGameType(1);
+				break;
+			case "New Local Multiplayer Game":
+				resignation = true;
+				currentGame.resign();
+				GameRunner.setGameType(2);
+				break;
 			}
 			
 			
@@ -279,9 +310,6 @@ public class Gui {
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-			int x = e.getX();
-			int y = e.getY();
-			//System.out.println("Mouse moved" + x + " " + y );
 			
 		}
 

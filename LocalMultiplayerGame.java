@@ -21,7 +21,8 @@ public class LocalMultiplayerGame extends GameManager{
 	      b.startBoard(b); 
 	 	  gameInterface.setGame(this);
 	 	  gameInterface.setBoard(b);
-	 	  gameInterface.setUpBoard();
+	 	  //can set up board prior looks better
+	 	  //gameInterface.setUpBoard();
 	 	  gameInterface.setState();
 	 	  gameLoop();
 	 	  while(!quit) {
@@ -113,6 +114,12 @@ public class LocalMultiplayerGame extends GameManager{
 	      
 	     return successfullTurn;
 }
+	@Override
+	public void resign() {
+		gameComplete = true;
+		quit = true;
+		
+	}
 
 
 }
