@@ -5,21 +5,19 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
 
 public class Gui { 
-	
+	GameManager currentGame;
 	Board b;
 	JFrame frame = new JFrame();
 	JPanel[][] panels;
@@ -32,15 +30,12 @@ public class Gui {
 	ActionManager actionMan;
 	JTextArea sideTextArea;
 	String imagePath = "Chess Pieces designs/FirstSet/";
+	boolean resignation;
 	
-	Gui(Board board){
-	 this.b = board;
-	}
 	
 	public void setUpBoard() {
 		
 		// mouse listeners placed on base to provide the drag and drop functionality
-		
 	    panels = new JPanel[8][8];
 	    actionMan = new ActionManager();
 	    setUpSidePanel();
@@ -138,10 +133,18 @@ public class Gui {
 		JMenuItem exit = new JMenuItem("Exit");
 		exit.addActionListener(actionMan);
 		
-		JMenuItem newGame = new JMenuItem("New Game"); 
-		newGame.addActionListener(actionMan);
+		JMenuItem resign = new JMenuItem("Resign Current Game"); 
+		resign.addActionListener(actionMan);
 		
-		settings.add(newGame);
+		JMenuItem newGameSinglePlayer = new JMenuItem("New Single Player Game"); 
+		newGameSinglePlayer.addActionListener(actionMan);
+		
+		JMenuItem newGameLocalMulti = new JMenuItem("New Local Multiplayer Game"); 
+		newGameLocalMulti.addActionListener(actionMan);
+		
+		settings.add(resign);
+		settings.add(newGameSinglePlayer);
+		settings.add(newGameLocalMulti);
 		settings.add(exit);
 		menuBar.add(settings);
 		
@@ -150,8 +153,6 @@ public class Gui {
 	
 	//This is used to update the Board placing the piece labels in their corrisponding positions on the board
 	public void setState() {
-		 
-		
 		        Cell[][] state = b.getBoard();
 		        
 		        // this removes all the labels currently on the board
@@ -197,9 +198,17 @@ public class Gui {
 	//doesn't work so printing an empty string was my solution
 	public int[] getSelectGetMov() {
 		dnd.setPrimed(true);
+		resignation = false;
 		String s = "";
 		while(dnd.getPrimed()) {
 			//System.out.println(dnd.getPrimed());
+			if(resignation == true) {
+				System.out.println("resignation true in gui");
+				dnd.setPrimed(false);
+				int[] resReturn = new int[4];
+				resReturn[0] = 99;
+ 				return resReturn;
+			}
 			System.out.print(s);
 		}
 		
@@ -218,12 +227,32 @@ public class Gui {
 		
 		return choiceValue + 1;
 	}
-	public static void checkMateDialog(Player player) {
+	public static int checkMateDialog(Player player) {
+		String[] choices = { "Another Game", "Quit Game", "Quit Application"};  
 		String colour = player.getColour();
 		String message = "Check mate " + colour + " is the Winner !!!";
-		JOptionPane.showOptionDialog(null, message, "Game Over", JOptionPane.DEFAULT_OPTION, 1, null, null, null);
-		
+		int choiceValue = JOptionPane.showOptionDialog(null, message, "Game Over", JOptionPane.DEFAULT_OPTION, 1, null, choices, choices[0]);
+		if(choiceValue == 2) {
+			 System.exit(0);
+		}
+		return choiceValue;
 	}
+	
+	public int chooseGameType() {
+		String[] choices = { "Single Player", "Local Multiplayer", "Online Multiplayer"};  
+		
+		String message = "Choose what type of game you would like to play";
+		int choiceValue = JOptionPane.showOptionDialog(null, message, "Welcome to chess the GAME", JOptionPane.DEFAULT_OPTION, 1, null, choices, choices[0]);
+		return choiceValue;
+	}
+	
+	public void setBoard(Board board) {
+	this.b = board;	
+	}
+	public void setGame(GameManager gameObject) {
+		this.currentGame = gameObject;	
+		}
+	
 	//Listens to events sorts the origin and produces the actions
 	public class ActionManager implements ActionListener {
 
@@ -231,17 +260,32 @@ public class Gui {
 		public void actionPerformed(ActionEvent e) {
 			System.out.println(" light camara action");
 			String caller = e.getActionCommand();
-			
+				
 			System.out.println(caller);
 			
 			switch(caller) {
 			
 			case "Exit":
+			
 			   System.exit(0);
 			break;
-			case "New Game":
-				 System.out.println(" Round two san");
+			case "Resign Current Game":
+				System.out.println("here i resign");
+				resignation = true;
+				currentGame.resign();
+				GameRunner.setGameType(0);
 			break;
+			case "New Single Player Game":
+				System.out.println("gui new single game action man");
+				resignation = true;
+				currentGame.resign();
+				GameRunner.setGameType(1);
+				break;
+			case "New Local Multiplayer Game":
+				resignation = true;
+				currentGame.resign();
+				GameRunner.setGameType(2);
+				break;
 			}
 			
 			
@@ -266,9 +310,6 @@ public class Gui {
 
 		@Override
 		public void mouseMoved(MouseEvent e) {
-			int x = e.getX();
-			int y = e.getY();
-			//System.out.println("Mouse moved" + x + " " + y );
 			
 		}
 

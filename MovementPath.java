@@ -1,5 +1,4 @@
 import java.util.Arrays;
-import java.util.Scanner;
 public class MovementPath {
 	
 	private static boolean successful = false;
@@ -31,6 +30,13 @@ public class MovementPath {
 		
 	     
 		System.out.println(Arrays.toString(selection) + "selection pre");
+		
+		//checking if the player has ended the game through resignation;
+		if(selection[0] == 99) {
+			System.out.println("resignation return move path");
+			MovementPath.setSuccessful(true);
+			return;
+		}
 		
 		if(b.getCell(xSelect, ySelect).getOccupied()) {
 			

@@ -2,92 +2,65 @@
 public class GameRunner {
 		 
 	  private static boolean gameComplete;
-	  
+	  private static boolean newGameReady;
+	  private static boolean loop = true;
+	  private static int gameType;
 	  public static void main(String[] args) {
 		  
-		  setUp();
+		  start();
 		  
 	  }
 	  
-	  public static void setUp() {
-		  boolean finished = false;	
-	  
-	      Board b = new Board();
-	      Player one = new Player("White");
-	      Player two = new Player("Black");
-	      one.setName("One");
-	      two.setName("Two");
-	      b.startBoard(b);
-	      
-	 	  Gui gameInterface = new Gui(b); 
-	 	  gameInterface.setUpBoard();
-	 	  gameInterface.setState();
-	 	  
-		  gameLoop(b,one,two,gameInterface);
+	  public static void start() {
+		  gameType = 0;
 		  
-	  }
- 	 
-	  private static boolean gameLoop(Board b, Player one, Player two, Gui gameInterface) {
+		  Gui gameInterface = new Gui();
+		  boolean finished = false;
+		  GameManager local = null;
+		  gameInterface.setUpBoard();
 		  
-	  	  gameComplete = false;
-		  boolean turnOneSuccess = false;
-		  boolean turnTwoSuccess = false;
-		  
-		  while(!gameComplete) {
-			  do {
-			    turnOneSuccess = playerTurn(b,one,two,gameInterface);  
-			  }while(!turnOneSuccess);
-			 
-			  do {
-		        turnTwoSuccess = playerTurn(b,two,one,gameInterface);
-			  }while(!turnTwoSuccess);
+		  int choice = gameInterface.chooseGameType();
+		  if(choice == 0) {
+		   local = new singlePlayerGame();
 		  }
+		  if(choice == 1) {
+			  local = new LocalMultiplayerGame();
+		  }
+		  local.setUpAndPlay(gameInterface);
 		  
-		  return gameComplete;
-	  }
+		  gameInterface.setSideText("The game is finished \nPlease Select a new Game from settings");
+		  System.out.println("hopefully im here at end");
+		  newGame(gameInterface);
+	 }
 	  
-	  private static boolean playerTurn(Board b, Player primary,Player opponent, Gui gameInterface) {
-		  
-		  	  boolean successfullTurn;
-		  	  String checkMessage = "";
-		      MovementPath.playerTurn(b, primary, gameInterface);
-		      successfullTurn = MovementPath.isSuccessful();
-		         
-		      //Checking if the player has moved themselves into check
-		      if(GameLogic.checkCheck(opponent, b)) {
-		    	  MovementPath.undoLastMove(b);
-		    	  successfullTurn = MovementPath.isSuccessful();
-		      } 
-		      
-		      //Check for Prawn promotion aswell as print state or error message
-		      if(successfullTurn) {
-		    	 GameLogic.promotion(b, primary);
-		         gameInterface.setState();
-		        
-		      } else {
-		    	  //System.out.println("Unsuccessfull turn please try again");
-		    	  gameInterface.setSideText("Unsuccessfull turn please try again \n \n" + primary.getColour());
-		    	 
-		      }
-		      
-		      // Checking if they have checked the opponant
-		      if(GameLogic.checkCheck(primary, b)) {
-		    	  checkMessage = "you are in check";
-		    	  System.out.println(opponent.getColour() + " is in check");
-		    	  
-		    	  if(GameLogic.checkMate(b, primary)) {
-		    		  gameInterface.setSideText("Check mate you lose!!! \n \n" + opponent.getColour());
-		    		  Gui.checkMateDialog(primary);
-		    		  gameComplete = true;
-	        		  return true;
-		    	  }
-		 	 }
-		      
-		      if(successfullTurn) {
-		    	  gameInterface.setSideText("Success!! \n \n" + checkMessage + " "+ opponent.getColour() + " turn");	 
-	          }
-		      
-		     return successfullTurn;
+	  public static void newGame(Gui gameInterface) {
+		  System.out.println("in de new game");
+		  String wasteTime = "";
+		  while(loop) {
+			  //using this to waste time will try to implement a more elegant solution at a later stage
+			  System.out.print("");
+			  
+			  if(gameType == 0) {
+				  gameInterface.setSideText("The game is finished \nPlease Select a new Game from settings");
+			  }
+			  
+			  if(gameType == 1) {
+				 System.out.println();
+				GameManager single = new singlePlayerGame();
+				gameInterface.setSideText(" New SinglePlayer Game \n Whites to move a piece to start");
+				single.setUpAndPlay(gameInterface);
+			  }
+			  
+			  if(gameType == 2) {
+				  System.out.println();
+				 GameManager local = new LocalMultiplayerGame();
+				 gameInterface.setSideText(" New multiplayer Game \\n Whites to move a piece to start");
+				 local.setUpAndPlay(gameInterface);
+			  }
+		  }
+	  }
+	  public static void setGameType(int gameChoice) {
+		   gameType = gameChoice;
 	  }
 
 }

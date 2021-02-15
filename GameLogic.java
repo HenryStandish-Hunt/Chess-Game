@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-import java.util.Scanner;
+
 
 public class GameLogic {
 	
@@ -21,17 +21,6 @@ public class GameLogic {
 		int tempyPos = 0;
 		String opColour;
 		
-		// Alternate code to easily traverse whole board could implement if have time 
-		/*
-		 for(Cell[] c : b.getBoard() ) {
-		    	for(Cell cc : c) {
-		    		  if(cc.getOccupied()) {
-		    			 System.out.println( cc.getPiece().getName());
-		    	      }
-		    	}
-		    	
-		    }
-		     */   	
 		       // go through the board and find the kings 
 		        for(int x = 0; x < 8; x++) {
 				for(int y = 0; y < 8; y++)	{
