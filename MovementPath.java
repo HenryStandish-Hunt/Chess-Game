@@ -194,12 +194,12 @@ public class MovementPath {
 			checkDown(p,  b,  xMov,  yMov, player);
 		}
 		else if(yMov == p.getyPos() && xMov < p.getxPos()) {
-			System.out.println("rook left");
+			//System.out.println("rook left");
 			checkLeft(p,  b,  xMov,  yMov, player);
 		}
 		
 		else if(yMov == p.getyPos() && xMov > p.getxPos()) {
-			System.out.println("rook right");
+			//System.out.println("rook right");
 			checkRight(p,  b,  xMov,  yMov, player);
 		}
 		else {
@@ -269,7 +269,7 @@ public class MovementPath {
 		
 		//Checking their not jumping over pieces when they make a double move
 		if(yMov > p.getyPos()) {
-			System.out.println("moving up prawn");
+			//System.out.println("moving up prawn");
 			checkUp(p,  b,  xMov,  yMov, player);
 		}
 		if(yMov < p.getyPos()) {

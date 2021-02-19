@@ -322,11 +322,11 @@ public class Gui {
 		// writes it to coord if primed
 		@Override
 		public void mousePressed(MouseEvent e) {
-			System.out.println("start");
+			//System.out.println("start");
 			Component hoverOver = base.getComponentAt(e.getX(), e.getY());
 			String pos = hoverOver.getName();
 			
-			System.out.println(hoverOver.getX());
+			//System.out.println(hoverOver.getX());
 			
 			int xSelect = Integer.parseInt(pos, 0, 1, 10);
 			int ySelect = Integer.parseInt(pos, 2, 3, 10);
@@ -334,18 +334,18 @@ public class Gui {
 			coord[0] = xSelect;
 			coord[1] = ySelect;
 			}
-			System.out.println("done");
+			//System.out.println("done");
 		}
 		
 		// this collects the movement co ord for the selected piece then sets primed to false;
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			System.out.println("end");
+			//System.out.println("end");
 			
 			Component hoverOver = base.getComponentAt(e.getX(), e.getY());
 			String pos = hoverOver.getName();
 			
-			System.out.println(hoverOver.getX());
+			//System.out.println(hoverOver.getX());
 			
 			int xMov = Integer.parseInt(pos, 0, 1, 10);
 			int yMov = Integer.parseInt(pos, 2, 3, 10);
@@ -354,8 +354,8 @@ public class Gui {
 			coord[3] = yMov;
 			}
 			setPrimed(false);
-			System.out.println("done");
-			System.out.println(Arrays.toString(coord));
+			//System.out.println("done");
+			//System.out.println(Arrays.toString(coord));
 		}
 
 		@Override

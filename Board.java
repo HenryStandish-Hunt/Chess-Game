@@ -117,8 +117,10 @@ public class Board {
 				dupState[x][y] =  new Cell(null,false);
 			} else {
 				Piece p = board[x][y].getPiece();
-	            dupState[x][y].setPiece(new Piece(p.getName(),p.getColour(),x,y));
-	           
+				Piece pDup = new Piece(p.getName(),p.getColour(),x,y);
+				pDup.setNumMoves(p.getNumMoves());
+	            dupState[x][y].setPiece(pDup);
+	            
 			}
 			    		
 			    			

@@ -18,3 +18,7 @@
 /LocalMultiplayerGame.class
 /singlePlayerGame.class
 /ComputerPlayer.class
+/ComputerPlayer$NodeState.class
+/ProtoComputerMinMax.class
+/ComputerPlayerPrototypeminmax$NodeState.class
+/ComputerPlayerPrototypeminmax.class
