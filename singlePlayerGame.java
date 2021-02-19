@@ -70,12 +70,17 @@ public class singlePlayerGame extends GameManager{
 
 	  	  boolean successfullTurn;
 	  	  String checkMessage = "";
-	     // MovementPath.playerTurn(b, primary, gameInterface);
-          ComputerPlayer.computerTurn(b, computer);
+	    
+          //ComputerPlayer.computerRandomTurn(b, computer, opponent);
+         // ComputerPlayer.computerMiniMaxTurn(b, computer, opponent);
+	      	ComputerPlayer.computerMiniMaxAlphaBetaTurn(b, computer, opponent);
 	      successfullTurn = MovementPath.isSuccessful();
-	         
+	      if(!successfullTurn) {
+	    	  System.out.println(" uncessessful computer turn at single player game caused by movement path ");
+	      }
 	      //Checking if the player has moved themselves into check
 	      if(GameLogic.checkCheck(opponent, b)) {
+	    	  System.out.println("move gets computer in check");
 	    	  MovementPath.undoLastMove(b);
 	    	  successfullTurn = MovementPath.isSuccessful();
 	      } 
@@ -96,7 +101,7 @@ public class singlePlayerGame extends GameManager{
 	    	  checkMessage = "you are in check";
 	    	  System.out.println(opponent.getColour() + " is in check");
 	    	  
-	    	  if(GameLogic.checkMate(b, computer)) {
+	    	  if(GameLogic.checkMate( computer,b)) {
 	    		  gameInterface.setSideText("Check mate you lose!!! \n \n" + opponent.getColour());
 	    		  gameComplete = true;
 	    		  if(Gui.checkMateDialog(computer) == 1) {
@@ -144,7 +149,7 @@ public class singlePlayerGame extends GameManager{
 	    	  checkMessage = "you are in check";
 	    	  System.out.println(opponent.getColour() + " is in check");
 	    	  
-	    	  if(GameLogic.checkMate(b, primary)) {
+	    	  if(GameLogic.checkMate(primary, b)) {
 	    		  gameInterface.setSideText("Check mate you lose!!! \n \n" + opponent.getColour());
 	    		  gameComplete = true;
 	    		  if(Gui.checkMateDialog(primary) == 1) {

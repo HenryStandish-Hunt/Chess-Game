@@ -97,7 +97,7 @@ public class LocalMultiplayerGame extends GameManager{
 	    	  checkMessage = "you are in check";
 	    	  System.out.println(opponent.getColour() + " is in check");
 	    	  
-	    	  if(GameLogic.checkMate(b, primary)) {
+	    	  if(GameLogic.checkMate( primary,b)) {
 	    		  gameInterface.setSideText("Check mate you lose!!! \n \n" + opponent.getColour());
 	    		  gameComplete = true;
 	    		  if(Gui.checkMateDialog(primary) == 1) {

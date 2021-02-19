@@ -81,7 +81,7 @@ public class GameLogic {
 		
 	}
 	
-	public static boolean checkMate(Board b,Player player) {
+	public static boolean checkMate(Player player,Board b) {
 		
 		 //create and set up a duplicate of the current board and produce a imitation opposition player
 		  boolean stillInCheck = true;
@@ -115,10 +115,10 @@ public class GameLogic {
 		    	 	if(MovementPath.isSuccessful()) {
 		    	 		MovementPath.setSuccessful(false);
 		    	 		// see options debug 
-		    	 		test.printState(); 
-		    	 		System.out.println();
+		    	 		//test.printState(); 
+		    	 	//	System.out.println();
 		    	 		if(!checkCheck(player,dup)) {
-		    		    System.out.println("Not check mate because of previouse state");
+		    		  //  System.out.println("Not check mate because of previouse state");
 		    	 		return stillInCheck = false;
 		    	     }
 		    		 MovementPath.manualMove(dup, xMov,yMov, xSelect , ySelect );
@@ -131,7 +131,7 @@ public class GameLogic {
 	         }
 		  
 		    if(stillInCheck) {
-		    	System.out.println("Check Mate " + oppPlayer.getColour() + "  you Lose");
+		    	//System.out.println("Check Mate " + oppPlayer.getColour() + "  you Lose");
 		    }
 	        return stillInCheck;
      }

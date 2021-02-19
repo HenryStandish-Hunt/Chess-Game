@@ -74,6 +74,9 @@ public class Piece extends GamePiece{
 		// TODO Auto-generated method stub
 		return numMoves;
 	}
+	public void setNumMoves(int num) {
+		numMoves = num;
+	}
 
 	@Override
 	public void addNumMoves() {
