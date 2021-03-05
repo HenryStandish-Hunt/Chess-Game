@@ -1,13 +1,15 @@
+package com.chessgame;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 public class ComputerPlayer {
 	
+	//private static int [] nextMove;
 	private static int [] nextMove;
-	 
-	private static final int DEPTH = 4;
 	
+	private static final int DEPTH = 3;
+	
+	// can be used to produce random moves 
 	public static void computerRandomTurn(Board b, Player computer, Player opponent) {
 		
 		 ArrayList<int[]> legalMoves = getLegalMoves(b,computer,opponent);
@@ -28,8 +30,10 @@ public class ComputerPlayer {
 		
 		        
 	}
+	//Method to produce a quasi intelligent move using a Min Max algorithm
+	
 	public static void computerMiniMaxAlphaBetaTurn(Board b, Player computer, Player opponent) {
-		
+	
 		maximizer(b, DEPTH, Integer.MIN_VALUE, Integer.MAX_VALUE,  computer,  opponent);
 		int[]coord = nextMove;
 		MovementPath.setTest(false);
@@ -38,6 +42,9 @@ public class ComputerPlayer {
 	
 	
 	}
+	// Maximizer finds and instantiates all possible moves on new boards which duplicate the current state 
+	// Then it calls minimizer so it can do the same until it hits the base case recursing back filling in scores 
+	// as the calls on the call stack return
 	private static int maximizer(Board b, int depth, int alpha, int beta, Player computer, Player opponent) {
 		
 		    if(depth == 0) {
@@ -92,6 +99,7 @@ public class ComputerPlayer {
 	    }
 	    return beta; 
 	}
+    // Produces all legal moves for a player and checks if they have moved themselves into check
 	public static ArrayList<int[]> getLegalMoves(Board b, Player player, Player opponent) {
 		 
 			
@@ -142,7 +150,7 @@ public class ComputerPlayer {
 	        return legalMoves;
 	       
 	}
-	
+	// evaluates the board for the min max method 
 	private static int evaluate(Board b, Player computer, Player opponent) {
 		int eval = 0;
 		

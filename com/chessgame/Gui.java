@@ -1,3 +1,4 @@
+package com.chessgame;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -239,7 +240,7 @@ public class Gui {
 	}
 	
 	public int chooseGameType() {
-		String[] choices = { "Single Player", "Local Multiplayer", "Online Multiplayer"};  
+		String[] choices = { "Single Player", "Local Multiplayer"};  
 		
 		String message = "Choose what type of game you would like to play";
 		int choiceValue = JOptionPane.showOptionDialog(null, message, "Welcome to chess the GAME", JOptionPane.DEFAULT_OPTION, 1, null, choices, choices[0]);

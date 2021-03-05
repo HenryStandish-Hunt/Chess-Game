@@ -1,3 +1,4 @@
+package com.chessgame;
 
 public class LocalMultiplayerGame extends GameManager{
 	
@@ -83,7 +84,7 @@ public class LocalMultiplayerGame extends GameManager{
 	      
 	      //Check for Prawn promotion aswell as print state or error message
 	      if(successfullTurn) {
-	    	 GameLogic.promotion(b, primary);
+	    	 GameLogic.promotion(b, primary,false);
 	         gameInterface.setState();
 	        
 	      } else {
