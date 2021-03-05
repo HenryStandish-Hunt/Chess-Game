@@ -1,3 +1,4 @@
+package com.chessgame;
 
 public class singlePlayerGame extends GameManager{
 	
@@ -87,7 +88,7 @@ public class singlePlayerGame extends GameManager{
 	      
 	      //Check for Prawn promotion aswell as print state or error message
 	      if(successfullTurn) {
-	    	 GameLogic.promotion(b, computer);
+	    	 GameLogic.promotion(b, computer, true);
 	         gameInterface.setState();
 	        
 	      } else {
@@ -135,7 +136,7 @@ public class singlePlayerGame extends GameManager{
 	      
 	      //Check for Prawn promotion aswell as print state or error message
 	      if(successfullTurn) {
-	    	 GameLogic.promotion(b, primary);
+	    	 GameLogic.promotion(b, primary, false);
 	         gameInterface.setState();
 	        
 	      } else {

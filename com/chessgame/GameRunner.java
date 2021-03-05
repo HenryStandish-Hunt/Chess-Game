@@ -1,10 +1,10 @@
+package com.chessgame;
 
 public class GameRunner {
 		 
-	  private static boolean gameComplete;
-	  private static boolean newGameReady;
 	  private static boolean loop = true;
 	  private static int gameType;
+	  
 	  public static void main(String[] args) {
 		  
 		  start();
@@ -35,7 +35,7 @@ public class GameRunner {
 	  
 	  public static void newGame(Gui gameInterface) {
 		  System.out.println("in de new game");
-		  String wasteTime = "";
+		  
 		  while(loop) {
 			  //using this to waste time will try to implement a more elegant solution at a later stage
 			  System.out.print("");

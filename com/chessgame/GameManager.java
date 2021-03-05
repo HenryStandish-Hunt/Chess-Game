@@ -1,3 +1,4 @@
+package com.chessgame;
 
 public abstract class GameManager {
 	

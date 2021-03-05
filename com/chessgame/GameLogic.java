@@ -1,3 +1,4 @@
+package com.chessgame;
 import java.util.ArrayList;
 
 
@@ -136,7 +137,7 @@ public class GameLogic {
 	        return stillInCheck;
      }
 	
-    public static void promotion(Board b, Player p ) {
+    public static void promotion(Board b, Player p, boolean computer ) {
     	String colour = p.getColour();
     	Cell[][] currentState = b.getBoard();
     	int yPosGoal;
@@ -158,6 +159,7 @@ public class GameLogic {
     			  
     			   System.out.println(" Your Prawn can now be promoted ");
     			   
+    			   if(!computer) {
     			   int choice = Gui.promotionChoice();
     			   
     			   
@@ -176,8 +178,13 @@ public class GameLogic {
     					piece.setName("Bishop");
     					break;  
     		        }
+    			   
+    			   } else {
+    				   piece.setName("Queen");
+    			   }
+    				   
     		      }
-    	   }
+    	     }
          }
 		
     }

@@ -1,0 +1,16 @@
+/Board.class
+/Cell.class
+/ComputerPlayer.class
+/GameLogic.class
+/GameManager.class
+/GamePiece.class
+/GameRunner.class
+/Graphics.class
+/Gui$ActionManager.class
+/Gui$DragAndDrop.class
+/Gui.class
+/LocalMultiplayerGame.class
+/MovementPath.class
+/Piece.class
+/Player.class
+/singlePlayerGame.class
