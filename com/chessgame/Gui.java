@@ -200,9 +200,9 @@ public class Gui {
 	public int[] getSelectGetMov() {
 		dnd.setPrimed(true);
 		resignation = false;
-		String s = "";
+		//String s = "";
+		
 		while(dnd.getPrimed()) {
-			//System.out.println(dnd.getPrimed());
 			if(resignation == true) {
 				System.out.println("resignation true in gui");
 				dnd.setPrimed(false);
@@ -210,7 +210,11 @@ public class Gui {
 				resReturn[0] = 99;
  				return resReturn;
 			}
-			System.out.print(s);
+			try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return dnd.getCoord();

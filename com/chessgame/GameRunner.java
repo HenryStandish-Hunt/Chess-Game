@@ -37,8 +37,11 @@ public class GameRunner {
 		  System.out.println("in de new game");
 		  
 		  while(loop) {
-			  //using this to waste time will try to implement a more elegant solution at a later stage
-			  System.out.print("");
+			  try {
+				Thread.sleep(10);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			  
 			  if(gameType == 0) {
 				  gameInterface.setSideText("The game is finished \nPlease Select a new Game from settings");
